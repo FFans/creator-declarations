@@ -305,7 +305,7 @@ app.initializers.add('ffans-creator-declarations', () => {
       items.add(
         'creatorDeclarations',
         <Button
-          icon="fas fa-file-signature"
+          icon="fas fa-bullhorn"
           onclick={async () => {
             const selected = selectionsFromModels(
               await loadCreatorDeclarations(post),
