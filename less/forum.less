@@ -42,7 +42,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid var(--control-color);
     outline-offset: 2px;
   }
 }
@@ -74,12 +74,12 @@
     &:focus-visible {
       .CreatorDeclarations-labels,
       .CreatorDeclarations-more {
-        color: var(--primary-color);
+        color: var(--control-color);
       }
     }
 
     &:focus-visible {
-      outline: 2px solid var(--primary-color);
+      outline: 2px solid var(--control-color);
       outline-offset: 3px;
       border-radius: var(--border-radius);
     }
@@ -87,7 +87,7 @@
 
   &-icon {
     flex: 0 0 auto;
-    color: var(--primary-color);
+    color: var(--control-color);
     margin-right: 2px;
   }
 
@@ -205,6 +205,7 @@
       color: var(--heading-color);
       font-size: 13px;
       font-weight: 700;
+      float: none;
     }
   }
 
@@ -224,16 +225,16 @@
     &:hover:not(.is-disabled) {
       border-color: color-mix(
         in srgb,
-        var(--primary-color) 45%,
+        var(--control-color) 45%,
         var(--control-bg)
       );
     }
 
     &.is-selected {
-      border-color: color-mix(in srgb, var(--primary-color) 68%, transparent);
-      background: color-mix(in srgb, var(--primary-color) 6%, var(--body-bg));
+      border-color: color-mix(in srgb, var(--control-color) 68%, transparent);
+      background: color-mix(in srgb, var(--control-color) 6%, var(--body-bg));
       box-shadow: 0 0 0 1px
-        color-mix(in srgb, var(--primary-color) 10%, transparent);
+        color-mix(in srgb, var(--control-color) 10%, transparent);
     }
 
     &.is-disabled:not(.is-selected) {
@@ -260,7 +261,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--primary-color);
+      outline: 2px solid var(--control-color);
       outline-offset: -2px;
     }
   }
@@ -296,7 +297,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--primary-color);
+    background: var(--control-color);
     color: var(--body-bg);
     opacity: 0;
     transform: scale(0.72);
