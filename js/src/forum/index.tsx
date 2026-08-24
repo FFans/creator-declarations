@@ -119,6 +119,11 @@ app.initializers.add('ffans-creator-declarations', () => {
     'flarum/forum/components/ReplyComposer',
     'oninit',
     function (this: any) {
+      if (!this.constructor.focusOnSelector) {
+        this.constructor.focusOnSelector = () =>
+          '.ComposerBody-editor :input:enabled:visible, .ComposerBody-editor .TextEditor-editor';
+      }
+
       initializeDeclarationComposer(this);
     },
   );
