@@ -56,19 +56,16 @@ export default class DeclarationList extends Component<DeclarationListAttrs> {
           }}
         >
           <Icon name="fas fa-bullhorn" className="CreatorDeclarations-icon" />
-          <span className="CreatorDeclarations-prefix">
-            {app.translator.trans(
-              'ffans-creator-declarations.forum.display.prefix',
-            )}
-          </span>
-          <span className="CreatorDeclarations-labels">
-            {labels.join(
-              app.translator.trans(
-                'ffans-creator-declarations.forum.display.declaration_separator',
-                {},
-                true,
-              ) as unknown as string,
-            )}
+          <span className="CreatorDeclarations-format">
+            {app.translator.trans('ffans-creator-declarations.forum.display.declaration_format', {
+              declarations: labels.join(
+                app.translator.trans(
+                  'ffans-creator-declarations.forum.display.declaration_separator',
+                  {},
+                  true,
+                ) as unknown as string,
+              ),
+            })}
           </span>
           <span className="CreatorDeclarations-more" aria-hidden="true">
             <Icon name="fas fa-chevron-right" />

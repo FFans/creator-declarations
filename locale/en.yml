@@ -25,7 +25,7 @@ ffans-creator-declarations:
     display:
       title: Creator declarations
       disclaimer: These declarations were provided by the author and have not been verified by the forum.
-      prefix: "Creator declaration: "
+      declaration_format: "<strong>Author’s declaration:</strong> {declarations}."
       open_details: View creator declaration details
       original_tag: Original
       original_tooltip: Original content. Do not reproduce without permission.
