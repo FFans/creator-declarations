@@ -4,7 +4,9 @@
 
 为 [Flarum](https://flarum.org/) 帖子提供由创作者自主添加的内容声明。
 
-此扩展程序帮助作者说明每个主题或回复的内容来源、真实性、安全风险及商业性质。声明由作者自行提供，不代表论坛观点。
+本扩展帮助作者披露发布内容的来源、真实性、安全风险及商业性质。
+
+> 本扩展借助 AI 辅助制作完成，将根据社区反馈持续优化与维护。
 
 ## 预览
 
@@ -15,7 +17,7 @@
 
 - 发布主题或回复主题时可选择多种声明。
 - 弹窗展示声明详情及备注。
-- 支持在帖子头部展示“原创”和“转载”标签。
+- 在声明汇总下方展示原创、转载及参考/引用提示。
 - ……
 
 ## 可用声明
@@ -23,7 +25,8 @@
 | 分类     | 声明                         |
 | -------- | ---------------------------- |
 | 内容来源 | 原创内容                     |
-| 内容来源 | 转载或引用内容               |
+| 内容来源 | 转载内容                     |
+| 内容来源 | 参考或引用内容               |
 | 真实性   | 内容由 AI 生成               |
 | 真实性   | 虚构或情景演绎内容           |
 | 真实性   | 个人观点或见解               |
@@ -47,7 +50,7 @@ composer require ffans/creator-declarations
 php flarum cache:clear
 ```
 
-在 Flarum 管理后台中启用此扩展程序。
+在 Flarum 管理后台中启用本扩展。
 
 ## 更新
 
@@ -59,19 +62,18 @@ php flarum cache:clear
 
 ## 配置
 
-打开 **管理后台 → 扩展程序 → FFans Creator Declarations**。
+打开 **管理后台 → 扩展 → FFans Creator Declarations**。
 
 | 设置                                 | 默认值   |
 | ------------------------------------ | -------- |
 | 发布主题时必须选择声明               | 关闭     |
 | 回复时必须选择声明                   | 关闭     |
 | 每篇帖子最多可选声明数               | 5        |
-| 在帖子头部显示原创和转载标签         | 关闭     |
 | 在用户个人主页的“回复”列表中显示声明 | 关闭     |
 | 声明排序                             | 内置顺序 |
 | 启用声明类型                         | 全部启用 |
 
-此扩展程序添加以下权限：
+本扩展添加以下权限：
 
 - **允许编辑自己的创作者声明** — 控制作者可在多长时间内编辑自己帖子的声明。
 - **编辑帖子的创作者声明** — 允许管理员编辑任意帖子声明。
@@ -86,7 +88,7 @@ php flarum cache:clear
 
 ### 本地开发安装
 
-在 Flarum 根目录中配置 Composer 路径仓库并安装扩展程序：
+在 Flarum 根目录中配置 Composer 路径仓库并安装扩展：
 
 ```powershell
 composer config repositories.creator-declarations path "/path/to/your/local/dir/creator-declarations"
@@ -108,7 +110,7 @@ npm run build
 
 ## 翻译
 
-如果你愿意帮助翻译此扩展程序，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/)。
+如果你愿意帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/)。
 
 ## 链接
 
@@ -119,4 +121,4 @@ npm run build
 
 ## 许可证
 
-本项目基于 [MIT 许可证](https://opensource.org/license/mit)发布。
+本项目基于 [MIT 许可证](https://raw.githubusercontent.com/FFans/creator-declarations/main/LICENSE)发布。

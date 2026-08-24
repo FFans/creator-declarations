@@ -7,6 +7,10 @@ use Flarum\Locale\TranslatorInterface;
 
 class DeclarationValidator
 {
+    private const SOURCE_KEYS = ['original', 'repost', 'reference'];
+
+    private const URL_SOURCE_KEYS = ['repost', 'reference'];
+
     public function __construct(
         protected DeclarationRegistry $registry,
         protected TranslatorInterface $translator
@@ -42,24 +46,30 @@ class DeclarationValidator
             }
 
             $details = trim((string) ($item['details'] ?? ''));
+            $title = trim((string) ($item['title'] ?? ''));
 
             if (mb_strlen($details) > 500) {
                 $this->fail('details_too_long');
             }
 
+            if (mb_strlen($title) > 100) {
+                $this->fail('title_too_long');
+            }
+
             $scheme = strtolower((string) parse_url($details, PHP_URL_SCHEME));
 
-            if ($key === 'repost' && ($details === '' || filter_var($details, FILTER_VALIDATE_URL) === false || ! in_array($scheme, ['http', 'https'], true))) {
-                $this->fail('repost_url_required');
+            if (in_array($key, self::URL_SOURCE_KEYS, true) && ($details === '' || filter_var($details, FILTER_VALIDATE_URL) === false || ! in_array($scheme, ['http', 'https'], true))) {
+                $this->fail('source_url_required');
             }
 
             $normalized[$key] = [
                 'key' => $key,
                 'details' => $details,
+                'title' => $title,
             ];
         }
 
-        if (isset($normalized['original'], $normalized['repost'])) {
+        if (count(array_intersect(array_keys($normalized), self::SOURCE_KEYS)) > 1) {
             $this->fail('source_conflict');
         }
 

@@ -17,7 +17,11 @@ class DeclarationManager
                 $model->actor_id = $actor->id;
                 $model->declaration_key = $declaration['key'];
                 $model->source = $post->user_id === $actor->id ? 'creator' : 'moderator';
-                $model->metadata = $declaration['details'] === '' ? null : ['details' => $declaration['details']];
+                $metadata = array_filter([
+                    'details' => $declaration['details'],
+                    'title' => $declaration['title'],
+                ], fn (string $value) => $value !== '');
+                $model->metadata = $metadata === [] ? null : $metadata;
 
                 $post->creatorDeclarations()->save($model);
             }

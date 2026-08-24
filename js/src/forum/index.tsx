@@ -1,6 +1,5 @@
 import app from 'flarum/forum/app';
 import Button from 'flarum/common/components/Button';
-import Tooltip from 'flarum/common/components/Tooltip';
 import Extend from 'flarum/common/extenders';
 import { extend as extendComponent, override } from 'flarum/common/extend';
 import Post from 'flarum/common/models/Post';
@@ -9,6 +8,7 @@ import PostControls from 'flarum/forum/utils/PostControls';
 import CreatorDeclaration from '../common/models/CreatorDeclaration';
 import commonExtend from '../common/extend';
 import DeclarationList from './components/DeclarationList';
+import SourceDeclaration from './components/SourceDeclaration';
 import {
   DeclarationSelection,
   selectionsFromModels,
@@ -80,7 +80,11 @@ async function loadCreatorDeclarations(
 }
 
 function shouldShowCreatorDeclarations(): boolean {
-  return (!app.current.matches(PostsUserPage) || app.forum.attribute<boolean>('creatorDeclarationShowInUserPostLists') === true);
+  return (
+    !app.current.matches(PostsUserPage) ||
+    app.forum.attribute<boolean>('creatorDeclarationShowInUserPostLists') ===
+      true
+  );
 }
 
 app.initializers.add('ffans-creator-declarations', () => {
@@ -195,66 +199,6 @@ app.initializers.add('ffans-creator-declarations', () => {
 
   extendComponent(
     'flarum/forum/components/CommentPost',
-    'headerItems',
-    function (this: any, items: any) {
-      if (
-        !shouldShowCreatorDeclarations() ||
-        !app.forum.attribute<boolean>(
-          'creatorDeclarationShowOriginalInPostHeader',
-        )
-      ) {
-        return;
-      }
-
-      const declarations = getCreatorDeclarations(this.attrs.post);
-      const headerDeclarations = [
-        { key: 'original', itemName: 'creatorDeclarationOriginal' },
-        { key: 'repost', itemName: 'creatorDeclarationRepost' },
-      ];
-
-      headerDeclarations.forEach(({ key, itemName }, index) => {
-        if (!declarations?.some((declaration) => declaration.key() === key)) {
-          return;
-        }
-
-        items.add(
-          itemName,
-          <Tooltip
-            text={
-              app.translator.trans(
-                `ffans-creator-declarations.forum.display.${key}_tooltip`,
-                {},
-                true,
-              ) as string
-            }
-          >
-            <button
-              type="button"
-              className={`CreatorDeclarationHeaderTag CreatorDeclarationHeaderTag--${key}`}
-              aria-label={app.translator.trans(
-                'ffans-creator-declarations.forum.display.open_details',
-              )}
-              onclick={() => {
-                app.modal.show(
-                  () => import('./components/DeclarationInfoModal'),
-                  {
-                    declarations,
-                  },
-                );
-              }}
-            >
-              {app.translator.trans(
-                `ffans-creator-declarations.forum.display.${key}_tag`,
-              )}
-            </button>
-          </Tooltip>,
-          5 - index,
-        );
-      });
-    },
-  );
-  extendComponent(
-    'flarum/forum/components/CommentPost',
     'content',
     function (this: any, content: any[]) {
       if (!shouldShowCreatorDeclarations()) {
@@ -287,6 +231,7 @@ app.initializers.add('ffans-creator-declarations', () => {
           bodyIndex,
           0,
           <DeclarationList declarations={declarations} />,
+          <SourceDeclaration declarations={declarations} />,
         );
       }
     },

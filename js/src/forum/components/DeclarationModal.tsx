@@ -8,6 +8,7 @@ import {
   DeclarationDefinition,
   DeclarationSelection,
   enabledDefinitions,
+  isSourceDeclarationKey,
   labelFor,
 } from '../utils/declarations';
 
@@ -147,23 +148,64 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
         </button>
 
         {selection && definition.detailsType && (
-          <textarea
-            className="FormControl CreatorDeclarationsModal-details"
-            rows={1}
-            value={selection.details}
-            required={definition.key === 'repost'}
-            maxlength={500}
-            placeholder={
-              app.translator.trans(
-                `ffans-creator-declarations.lib.declarations.${definition.key}.details_placeholder`,
-                {},
-                true,
-              ) as string
-            }
-            oninput={(event: InputEvent) => {
-              selection.details = (event.target as HTMLTextAreaElement).value;
-            }}
-          />
+          <>
+            {definition.detailsType === 'url' ? (
+              <input
+                className="FormControl CreatorDeclarationsModal-details"
+                type="url"
+                value={selection.details}
+                required
+                maxlength={500}
+                placeholder={
+                  app.translator.trans(
+                    `ffans-creator-declarations.lib.declarations.${definition.key}.details_placeholder`,
+                    {},
+                    true,
+                  ) as string
+                }
+                oninput={(event: InputEvent) => {
+                  selection.details = (event.target as HTMLInputElement).value;
+                }}
+              />
+            ) : (
+              <textarea
+                className="FormControl CreatorDeclarationsModal-details"
+                rows={1}
+                value={selection.details}
+                maxlength={500}
+                placeholder={
+                  app.translator.trans(
+                    `ffans-creator-declarations.lib.declarations.${definition.key}.details_placeholder`,
+                    {},
+                    true,
+                  ) as string
+                }
+                oninput={(event: InputEvent) => {
+                  selection.details = (
+                    event.target as HTMLTextAreaElement
+                  ).value;
+                }}
+              />
+            )}
+            {definition.detailsType === 'url' && (
+              <input
+                className="FormControl CreatorDeclarationsModal-title"
+                type="text"
+                value={selection.title}
+                maxlength={100}
+                placeholder={
+                  app.translator.trans(
+                    'ffans-creator-declarations.forum.modal.link_title_placeholder',
+                    {},
+                    true,
+                  ) as string
+                }
+                oninput={(event: InputEvent) => {
+                  selection.title = (event.target as HTMLInputElement).value;
+                }}
+              />
+            )}
+          </>
         )}
       </div>
     );
@@ -171,11 +213,13 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
 
   toggle(definition: DeclarationDefinition, checked: boolean) {
     if (checked) {
-      if (definition.key === 'original')
-        this.selected = this.selected.filter((item) => item.key !== 'repost');
-      if (definition.key === 'repost')
-        this.selected = this.selected.filter((item) => item.key !== 'original');
-      this.selected.push({ key: definition.key, details: '' });
+      if (isSourceDeclarationKey(definition.key)) {
+        this.selected = this.selected.filter(
+          (item) => !isSourceDeclarationKey(item.key),
+        );
+      }
+
+      this.selected.push({ key: definition.key, details: '', title: '' });
     } else {
       this.selected = this.selected.filter(
         (item) => item.key !== definition.key,

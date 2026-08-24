@@ -10,6 +10,7 @@ class DeclarationRegistry
     public const KEYS = [
         'original',
         'repost',
+        'reference',
         'ai_generated',
         'fictional',
         'personal_opinion',

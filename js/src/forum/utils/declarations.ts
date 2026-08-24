@@ -13,6 +13,17 @@ export interface DeclarationDefinition {
 export interface DeclarationSelection {
   key: string;
   details: string;
+  title: string;
+}
+
+export const sourceDeclarationKeys = [
+  'original',
+  'repost',
+  'reference',
+] as const;
+
+export function isSourceDeclarationKey(key: string): boolean {
+  return (sourceDeclarationKeys as readonly string[]).includes(key);
 }
 
 export const definitions: DeclarationDefinition[] = [
@@ -29,6 +40,14 @@ export const definitions: DeclarationDefinition[] = [
     color: '#64748b',
     category: 'source',
     attribute: 'creatorDeclarationRepostEnabled',
+    detailsType: 'url',
+  },
+  {
+    key: 'reference',
+    icon: 'fas fa-quote-left',
+    color: '#64748b',
+    category: 'source',
+    attribute: 'creatorDeclarationReferenceEnabled',
     detailsType: 'url',
   },
   {
@@ -144,5 +163,6 @@ export function selectionsFromModels(
   return models.map((model) => ({
     key: model.key(),
     details: model.metadata()?.details || '',
+    title: model.metadata()?.title || '',
   }));
 }

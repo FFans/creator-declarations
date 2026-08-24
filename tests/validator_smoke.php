@@ -52,6 +52,11 @@ assert(count($valid) === 3);
 assert($valid[1]['details'] === 'Local model');
 assert($valid[2]['key'] === 'personal_opinion');
 
+$repost = $validator->validate([
+    ['key' => 'repost', 'details' => 'https://example.com/source', 'title' => 'Example source'],
+]);
+assert($repost[0]['title'] === 'Example source');
+
 $expectFailure = function (array $payload, bool $required = false, ?string $expectedMessage = null) use ($validator): void {
     try {
         $validator->validate($payload, $required);
@@ -72,6 +77,16 @@ $expectFailure([
 ]);
 $expectFailure([
     ['key' => 'repost', 'details' => 'not-a-url'],
+]);
+$expectFailure([
+    ['key' => 'reference', 'details' => 'not-a-url'],
+]);
+$expectFailure([
+    ['key' => 'reference', 'details' => 'https://example.com/reference', 'title' => str_repeat('a', 101)],
+]);
+$expectFailure([
+    ['key' => 'repost', 'details' => 'https://example.com/source'],
+    ['key' => 'reference', 'details' => 'https://example.com/reference'],
 ]);
 $expectFailure([
     ['key' => 'unknown'],
@@ -118,6 +133,6 @@ $settings->set('ffans-creator-declarations.allow_edit_own', '-1');
 assert($registry->allowsEditingOwn($post));
 
 assert($validator->validate([]) === []);
-$expectFailure([], true, 'At least one creator declaration is required.');
+$expectFailure([], true, 'At least one declaration is required.');
 
 echo "validator-smoke-ok\n";

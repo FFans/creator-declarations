@@ -2,7 +2,11 @@ import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import Icon from 'flarum/common/components/Icon';
 import CreatorDeclaration from '../../common/models/CreatorDeclaration';
-import { definitionFor, sortDeclarations } from '../utils/declarations';
+import {
+  definitionFor,
+  isSourceDeclarationKey,
+  sortDeclarations,
+} from '../utils/declarations';
 import type Mithril from 'mithril';
 
 interface DeclarationListAttrs {
@@ -11,31 +15,40 @@ interface DeclarationListAttrs {
 
 export default class DeclarationList extends Component<DeclarationListAttrs> {
   view(vnode: Mithril.Vnode<DeclarationListAttrs, this>) {
-    const showOriginalInPostHeader = app.forum.attribute<boolean>(
-      'creatorDeclarationShowOriginalInPostHeader',
-    );
     const validDeclarations = sortDeclarations(
       vnode.attrs.declarations.filter((declaration) =>
         definitionFor(declaration.key()),
       ),
     );
-    const declarations = validDeclarations.filter(
-      (declaration) =>
-        !(
-          showOriginalInPostHeader &&
-          ['original', 'repost'].includes(declaration.key())
-        ),
+    const hasOtherDeclarations = validDeclarations.some(
+      (declaration) => !isSourceDeclarationKey(declaration.key()),
     );
-    if (!declarations.length) return null;
 
-    const labels = declarations.map(
-      (declaration) =>
-        app.translator.trans(
-          `ffans-creator-declarations.lib.declarations.${declaration.key()}.label`,
+    if (!hasOtherDeclarations) return null;
+
+    const labels = validDeclarations.map((declaration) => {
+      if (declaration.key() === 'original') {
+        return app.translator.trans(
+          'ffans-creator-declarations.forum.display.original_summary',
           {},
           true,
-        ) as unknown as string,
-    );
+        ) as unknown as string;
+      }
+
+      if (declaration.key() === 'reference') {
+        return app.translator.trans(
+          'ffans-creator-declarations.forum.display.reference_summary',
+          {},
+          true,
+        ) as unknown as string;
+      }
+
+      return app.translator.trans(
+        `ffans-creator-declarations.lib.declarations.${declaration.key()}.label`,
+        {},
+        true,
+      ) as unknown as string;
+    });
 
     return (
       <section className="CreatorDeclarations">
@@ -57,15 +70,18 @@ export default class DeclarationList extends Component<DeclarationListAttrs> {
         >
           <Icon name="fas fa-bullhorn" className="CreatorDeclarations-icon" />
           <span className="CreatorDeclarations-format">
-            {app.translator.trans('ffans-creator-declarations.forum.display.declaration_format', {
-              declarations: labels.join(
-                app.translator.trans(
-                  'ffans-creator-declarations.forum.display.declaration_separator',
-                  {},
-                  true,
-                ) as unknown as string,
-              ),
-            })}
+            {app.translator.trans(
+              'ffans-creator-declarations.forum.display.declaration_format',
+              {
+                declarations: labels.join(
+                  app.translator.trans(
+                    'ffans-creator-declarations.forum.display.declaration_separator',
+                    {},
+                    true,
+                  ) as unknown as string,
+                ),
+              },
+            )}
           </span>
           <span className="CreatorDeclarations-more" aria-hidden="true">
             <Icon name="fas fa-chevron-right" />

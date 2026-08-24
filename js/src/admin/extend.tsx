@@ -9,7 +9,7 @@ import { extend as extendComponent } from 'flarum/common/extend';
 const declarationCategories = [
   {
     key: 'source',
-    declarations: ['original', 'repost'],
+    declarations: ['original', 'repost', 'reference'],
   },
   {
     key: 'authenticity',
@@ -103,19 +103,6 @@ const admin = new Extend.Admin()
       ),
     }),
     90,
-  )
-  .setting(
-    () => ({
-      setting: 'ffans-creator-declarations.show_original_in_post_header',
-      type: 'boolean',
-      label: app.translator.trans(
-        'ffans-creator-declarations.admin.settings.show_original_in_post_header_label',
-      ),
-      help: app.translator.trans(
-        'ffans-creator-declarations.admin.settings.show_original_in_post_header_help',
-      ),
-    }),
-    85,
   )
   .setting(
     () => ({

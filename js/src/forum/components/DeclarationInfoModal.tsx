@@ -84,6 +84,7 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
             {declarations.map((declaration) => {
               const definition = definitionFor(declaration.key())!;
               const details = declaration.metadata()?.details;
+              const title = declaration.metadata()?.title;
 
               return (
                 <div
@@ -101,7 +102,23 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
                         `ffans-creator-declarations.lib.declarations.${definition.key}.help`,
                       )}
                     </p>
-                    {details && (
+                    {details && definition.detailsType === 'url' && (
+                      <div className="CreatorDeclarationInfoModal-note">
+                        <span>
+                          {app.translator.trans(
+                            `ffans-creator-declarations.forum.info_modal.${declaration.key() === 'reference' ? 'reference' : 'source'}`,
+                          )}
+                        </span>
+                        <a
+                          href={details}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow ugc"
+                        >
+                          {title || details}
+                        </a>
+                      </div>
+                    )}
+                    {details && definition.detailsType !== 'url' && (
                       <div className="CreatorDeclarationInfoModal-note">
                         <span>
                           {app.translator.trans(

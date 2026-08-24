@@ -4,7 +4,9 @@
 
 A [Flarum](http://flarum.org) extension. Creator-provided content disclosures for the posts.
 
-The extension helps authors describe the source, authenticity, safety context, and commercial nature of each discussion or reply. Declarations are supplied by the author and are not verification by the forum.
+The extension helps authors describe the source, authenticity, safety context, and commercial nature of each posts.
+
+> This extension was built with AI assistance and will continue to be improved and maintained based on community feedback.
 
 ## Preview
 
@@ -15,7 +17,7 @@ The extension helps authors describe the source, authenticity, safety context, a
 
 - Select multiple declarations when starting a discussion or writing a reply.
 - Show declaration details and notes in modal.
-- Optionally show Original and Repost as post-header tags.
+- Show original, repost, and reference notices below the declaration summary.
 - ……
 
 ## Available declarations
@@ -23,7 +25,8 @@ The extension helps authors describe the source, authenticity, safety context, a
 | Category              | Declaration                                         |
 | --------------------- | --------------------------------------------------- |
 | Content source        | Original content                                    |
-| Content source        | Reposted or quoted content                          |
+| Content source        | Reposted content                                    |
+| Content source        | Referenced or quoted content                        |
 | Authenticity          | AI-generated content                                |
 | Authenticity          | Fictional or staged content                         |
 | Authenticity          | Personal opinions or perspectives                   |
@@ -66,7 +69,6 @@ Open **Administration → Extensions → FFans Creator Declarations**.
 | Require a declaration when starting a discussion | Off            |
 | Require a declaration when replying              | Off            |
 | Maximum declarations per post                    | 5              |
-| Show Original and Repost tags in the post header | Off            |
 | Show declarations in user profile Posts lists    | Off            |
 | Declaration order                                | Built-in order |
 | Individual declaration types                     | All enabled    |
@@ -108,7 +110,7 @@ Use `npm run dev` for a development build that watches for frontend changes.
 
 ## Translations
 
-Want to help translate this extension? Visit [Robert Korulczyk's Weblate platform](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/).
+Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/).
 
 ## Links
 
@@ -119,4 +121,4 @@ Want to help translate this extension? Visit [Robert Korulczyk's Weblate platfor
 
 ## License
 
-Released under the [MIT License](https://opensource.org/license/mit).
+Released under the [MIT License](https://raw.githubusercontent.com/FFans/creator-declarations/main/LICENSE).
