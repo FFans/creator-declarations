@@ -130,7 +130,7 @@ composer test:unit
 
 ## Translations
 
-Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/).
+Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https://weblate.rob006.net/projects/flarum2/ffans-creator-declarations/).
 
 ## Links
 

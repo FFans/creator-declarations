@@ -130,7 +130,7 @@ composer test:unit
 
 ## 翻译
 
-帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/)。
+帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declarations/)。
 
 ## 链接
 
