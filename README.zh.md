@@ -37,9 +37,10 @@
 
 ## 环境要求
 
-- Flarum `^2.0.0`
-
-Flarum 1.x 计划支持中。
+| Flarum 版本 | 扩展版本 | 分支 |
+| ----------- | -------- | ---- |
+| 2.x         | `0.2.x` 或 `2.x` | [`main`](https://github.com/FFans/creator-declarations/tree/main) |
+| 1.x         | `0.1.x` 或 `1.x` | [`1.x`](https://github.com/FFans/creator-declarations/tree/1.x) |
 
 ## 安装
 
