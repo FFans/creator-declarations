@@ -36,14 +36,23 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
     const declarations = this.attrs.declarations.filter((declaration) =>
       definitionFor(declaration.key()),
     );
-    const labels = declarations.map(
-      (declaration) =>
-        app.translator.trans(
-          `ffans-creator-declarations.lib.declarations.${declaration.key()}.label`,
+    const labels = declarations.map((declaration) => {
+      const key = declaration.key();
+
+      if (['original', 'reference', 'personal_opinion'].includes(key)) {
+        return app.translator.trans(
+          `ffans-creator-declarations.forum.display.${key}_summary`,
           {},
           true,
-        ) as unknown as string,
-    );
+        ) as unknown as string;
+      }
+
+      return app.translator.trans(
+        `ffans-creator-declarations.lib.declarations.${key}.label`,
+        {},
+        true,
+      ) as unknown as string;
+    });
 
     return (
       <div

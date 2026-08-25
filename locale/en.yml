@@ -24,11 +24,12 @@ ffans-creator-declarations:
       declaration_format: "<strong>Author’s declaration:</strong> {declarations}."
       open_details: View creator declaration details
       original_notice: Original content. Do not reproduce without permission.
-      original_summary: Original content (do not reproduce without permission)
+      original_summary: Original content, do not reproduce without permission
       repost_notice: This content comes from {source}.
       reference_notice: This content references {source}.
       reference_summary: Content was referenced or quoted
-      declaration_separator: ", "
+      personal_opinion_summary: Personal opinion, for reference only
+      declaration_separator: "; "
     info_modal:
       title: About this declaration
       heading: Why am I seeing this notice?

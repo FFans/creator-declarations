@@ -27,17 +27,11 @@ export default class DeclarationList extends Component<DeclarationListAttrs> {
     if (!hasOtherDeclarations) return null;
 
     const labels = validDeclarations.map((declaration) => {
-      if (declaration.key() === 'original') {
-        return app.translator.trans(
-          'ffans-creator-declarations.forum.display.original_summary',
-          {},
-          true,
-        ) as unknown as string;
-      }
+      const key = declaration.key();
 
-      if (declaration.key() === 'reference') {
+      if (['original', 'reference', 'personal_opinion'].includes(key)) {
         return app.translator.trans(
-          'ffans-creator-declarations.forum.display.reference_summary',
+          `ffans-creator-declarations.forum.display.${key}_summary`,
           {},
           true,
         ) as unknown as string;
