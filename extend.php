@@ -30,14 +30,14 @@ return [
     (new Extend\ApiResource(Resource\DiscussionResource::class))
         ->fields(DiscussionResourceFields::class)
         ->endpoint(
-            [Endpoint\Create::class, Endpoint\Show::class],
+            Endpoint\Create::class,
             fn ($endpoint) => $endpoint->addDefaultInclude(['firstPost.creatorDeclarations'])
         ),
 
     (new Extend\ApiResource(Resource\PostResource::class))
         ->fields(PostResourceFields::class)
         ->endpoint(
-            [Endpoint\Create::class, Endpoint\Update::class, Endpoint\Show::class, Endpoint\Index::class],
+            [Endpoint\Create::class, Endpoint\Update::class, Endpoint\Index::class],
             fn ($endpoint) => $endpoint->addDefaultInclude(['creatorDeclarations'])
         ),
 
