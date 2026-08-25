@@ -39,7 +39,7 @@
 
 - Flarum `^2.0.0`
 
-当前版本使用 2.0.0-rc.5 开发。Flarum 1.x 计划支持中。
+Flarum 1.x 计划支持中。
 
 ## 安装
 
@@ -108,9 +108,29 @@ npm run build
 
 使用 `npm run dev` 启动开发构建并热更新。
 
+### 后端测试
+
+安装开发依赖，首次运行时初始化集成测试环境，然后执行测试：
+
+```powershell
+composer install
+composer test:setup
+composer test
+```
+
+集成测试使用 MySQL 或 MariaDB。连接信息通过环境变量 `DB_DRIVER=mysql`（默认 `sqlite`）、 `DB_HOST`（默认 `localhost`）、`DB_PORT`（默认 `3306`）、`DB_DATABASE`（默认 `flarum_test`）、`DB_USERNAME`（默认 `root`）、`DB_PASSWORD`（默认 `root`）和 `DB_PREFIX`（默认空）设置；测试目录可通过 `FLARUM_TEST_TMP_DIR_LOCAL` 或 `FLARUM_TEST_TMP_DIR` 指定。
+
+执行 `composer test:setup` 前需要先创建专用测试数据库。初始化会清空指定数据库，因此绝不能使用现有开发站点或生产站点的数据库。后续集成测试中的数据库变更会在事务内执行，可以持续复用已经初始化的测试数据库。
+
+如果只需运行不依赖数据库的单元测试：
+
+```powershell
+composer test:unit
+```
+
 ## 翻译
 
-如果你愿意帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/)。
+帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declaration/)。
 
 ## 链接
 

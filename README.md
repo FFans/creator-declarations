@@ -39,7 +39,7 @@ The extension helps authors describe the source, authenticity, safety context, a
 
 - Flarum `^2.0.0`
 
-The current version was developed using Flarum `2.0.0-rc.5`. Flarum 1.x support is planned.
+Flarum 1.x support is planned.
 
 ## Installation
 
@@ -107,6 +107,26 @@ npm run build
 ```
 
 Use `npm run dev` for a development build that watches for frontend changes.
+
+### Backend tests
+
+Install the development dependencies, initialize the integration-test environment once, then run the test suite:
+
+```sh
+composer install
+composer test:setup
+composer test
+```
+
+Integration tests use a MySQL or MariaDB instance. Connection details are configured with `DB_DRIVER` (default `sqlite`), `DB_HOST` (default `localhost`), `DB_PORT` (default `3306`), `DB_DATABASE` (default `flarum_test`), `DB_USERNAME` (default `root`), `DB_PASSWORD` (default `root`), and `DB_PREFIX` (default empty). The test directory can be configured with `FLARUM_TEST_TMP_DIR_LOCAL` or `FLARUM_TEST_TMP_DIR`.
+
+Create the dedicated test database before running `composer test:setup`. Setup wipes the selected database, so never point these variables at a development or production Flarum database. Subsequent integration tests run database changes inside transactions, allowing the initialized test database to be reused.
+
+Run only the database-free unit tests with:
+
+```sh
+composer test:unit
+```
 
 ## Translations
 
