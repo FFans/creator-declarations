@@ -17,7 +17,7 @@ The extension helps authors describe the source, authenticity, safety context, a
 
 - Select multiple declarations when starting a discussion or writing a reply.
 - Show declaration details and notes in modal.
-- Show original, repost, and reference notices below the declaration summary.
+- Display source declarations as standalone notices when no other declaration types are selected.
 - ……
 
 ## Available declarations
