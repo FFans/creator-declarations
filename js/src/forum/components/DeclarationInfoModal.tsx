@@ -1,5 +1,6 @@
 import app from 'flarum/forum/app';
-import Icon from 'flarum/common/components/Icon';
+import icon from 'flarum/common/helpers/icon';
+import extractText from 'flarum/common/utils/extractText';
 import Modal, {
   type IInternalModalAttrs,
 } from 'flarum/common/components/Modal';
@@ -40,18 +41,18 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
       const key = declaration.key();
 
       if (['original', 'reference', 'personal_opinion'].includes(key)) {
-        return app.translator.trans(
-          `ffans-creator-declarations.forum.display.${key}_summary`,
-          {},
-          true,
-        ) as unknown as string;
+        return extractText(
+          app.translator.trans(
+            `ffans-creator-declarations.forum.display.${key}_summary`,
+          ),
+        );
       }
 
-      return app.translator.trans(
-        `ffans-creator-declarations.lib.declarations.${key}.label`,
-        {},
-        true,
-      ) as unknown as string;
+      return extractText(
+        app.translator.trans(
+          `ffans-creator-declarations.lib.declarations.${key}.label`,
+        ),
+      );
     });
 
     return (
@@ -62,7 +63,7 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
       >
         <div className="CreatorDeclarationInfoModal-content">
           <div className="CreatorDeclarationInfoModal-intro">
-            <Icon name="fas fa-info" />
+            {icon('fas fa-info')}
             <h3>
               {app.translator.trans(
                 'ffans-creator-declarations.forum.info_modal.heading',
@@ -73,11 +74,11 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
                 'ffans-creator-declarations.forum.info_modal.explanation',
                 {
                   declarations: labels.join(
-                    app.translator.trans(
-                      'ffans-creator-declarations.forum.display.declaration_separator',
-                      {},
-                      true,
-                    ) as unknown as string,
+                    extractText(
+                      app.translator.trans(
+                        'ffans-creator-declarations.forum.display.declaration_separator',
+                      ),
+                    ),
                   ),
                 },
               )}
@@ -100,10 +101,9 @@ export default class DeclarationInfoModal extends Modal<DeclarationInfoModalAttr
                   className="CreatorDeclarationInfoModal-item"
                   key={declaration.id()}
                 >
-                  <Icon
-                    name={definition.icon}
-                    style={{ color: definition.color }}
-                  />
+                  {icon(definition.icon, {
+                    style: { color: definition.color },
+                  })}
                   <div>
                     <strong>{labelFor(definition.key)}</strong>
                     <p>

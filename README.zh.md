@@ -1,6 +1,6 @@
 # FFans 创作者声明
 
-[![License](https://img.shields.io/packagist/l/ffans/creator-declarations.svg?label=许可证)](https://opensource.org/license/mit) [![Latest Stable Version](https://img.shields.io/packagist/v/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations) [![Release Date](https://img.shields.io/github/release-date/ffans/creator-declarations.svg?label=发布日期&display_date=published_at)](https://github.com/ffans/creator-declarations/releases/latest) [![Total Downloads](https://img.shields.io/packagist/dt/ffans/creator-declarations.svg?label=总下载量)](https://packagist.org/packages/ffans/creator-declarations/stats) [![Monthly Downloads](https://img.shields.io/packagist/dm/ffans/creator-declarations.svg?label=月下载量)](https://packagist.org/packages/ffans/creator-declarations/stats)
+[![许可证](https://img.shields.io/packagist/l/ffans/creator-declarations.svg?label=许可证)](https://opensource.org/license/mit) [![Flarum](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FFFans%2Fcreator-declarations%2F1.x%2Fcomposer.json&query=%24.require%5B%22flarum%2Fcore%22%5D&label=Flarum)](https://docs.flarum.org/1.x/) [![最新版本](https://img.shields.io/github/v/tag/FFans/creator-declarations?filter=v0.1.*&sort=semver&label=version)](https://github.com/FFans/creator-declarations/releases) [![发布日期](https://img.shields.io/github/release-date/ffans/creator-declarations.svg?label=发布日期&display_date=published_at)](https://github.com/ffans/creator-declarations/releases/latest) [![总下载量](https://img.shields.io/packagist/dt/ffans/creator-declarations.svg?label=总下载量)](https://packagist.org/packages/ffans/creator-declarations/stats) [![月下载量](https://img.shields.io/packagist/dm/ffans/creator-declarations.svg?label=月下载量)](https://packagist.org/packages/ffans/creator-declarations/stats)
 
 为 [Flarum](https://flarum.org/) 帖子提供由创作者自主添加的内容声明。
 
@@ -10,8 +10,8 @@
 
 ## 预览
 
-![效果图](https://raw.githubusercontent.com/FFans/creator-declarations/main/docs/images/post_zh-Hans.png)
-![详情效果图](https://raw.githubusercontent.com/FFans/creator-declarations/main/docs/images/details_zh-Hans.png)
+![效果图](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/docs/images/post_zh-Hans.png)
+![详情效果图](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/docs/images/details_zh-Hans.png)
 
 ## 功能
 
@@ -37,16 +37,14 @@
 
 ## 环境要求
 
-- Flarum `^2.0.0`
-
-Flarum 1.x 计划支持中。
+- Flarum `^1.8.0`
 
 ## 安装
 
 使用 Composer 安装：
 
 ```sh
-composer require ffans/creator-declarations
+composer require ffans/creator-declarations:^0.1.0
 php flarum cache:clear
 ```
 
@@ -104,6 +102,7 @@ cd js
 npm install
 npm run check-typings
 npm run build
+php flarum cache:clear; & php flarum assets:publish
 ```
 
 使用 `npm run dev` 启动开发构建并热更新。
@@ -118,7 +117,7 @@ composer test:setup
 composer test
 ```
 
-集成测试使用 MySQL 或 MariaDB。连接信息通过环境变量 `DB_DRIVER=mysql`（默认 `sqlite`）、 `DB_HOST`（默认 `localhost`）、`DB_PORT`（默认 `3306`）、`DB_DATABASE`（默认 `flarum_test`）、`DB_USERNAME`（默认 `root`）、`DB_PASSWORD`（默认 `root`）和 `DB_PREFIX`（默认空）设置；测试目录可通过 `FLARUM_TEST_TMP_DIR_LOCAL` 或 `FLARUM_TEST_TMP_DIR` 指定。
+集成测试使用 MySQL 或 MariaDB。连接信息通过环境变量 `DB_HOST`（默认 `localhost`）、`DB_PORT`（默认 `3306`）、`DB_DATABASE`（默认 `flarum_test`）、`DB_USERNAME`（默认 `root`）、`DB_PASSWORD`（默认空）和 `DB_PREFIX`（默认空）设置；测试目录可通过 `FLARUM_TEST_TMP_DIR_LOCAL` 或 `FLARUM_TEST_TMP_DIR` 指定。
 
 执行 `composer test:setup` 前需要先创建专用测试数据库。初始化会清空指定数据库，因此绝不能使用现有开发站点或生产站点的数据库。后续集成测试中的数据库变更会在事务内执行，可以持续复用已经初始化的测试数据库。
 
@@ -130,7 +129,7 @@ composer test:unit
 
 ## 翻译
 
-帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum2/ffans-creator-declarations/)。
+帮助翻译本扩展，请前往 [Robert Korulczyk's Weblate 平台](https://weblate.rob006.net/projects/flarum/ffans-creator-declarations/)。
 
 ## 链接
 
@@ -141,4 +140,4 @@ composer test:unit
 
 ## 许可证
 
-本项目基于 [MIT 许可证](https://raw.githubusercontent.com/FFans/creator-declarations/main/LICENSE)发布。
+本项目基于 [MIT 许可证](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/LICENSE)发布。

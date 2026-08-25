@@ -1,6 +1,6 @@
 # FFans Creator Declarations
 
-[![License](https://img.shields.io/packagist/l/ffans/creator-declarations.svg)](https://opensource.org/license/mit) [![Latest Stable Version](https://img.shields.io/packagist/v/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations) [![Release Date](https://img.shields.io/github/release-date/ffans/creator-declarations.svg?display_date=published_at)](https://github.com/ffans/creator-declarations/releases/latest) [![Total Downloads](https://img.shields.io/packagist/dt/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations/stats) [![Monthly Downloads](https://img.shields.io/packagist/dm/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations/stats)
+[![License](https://img.shields.io/packagist/l/ffans/creator-declarations.svg)](https://opensource.org/license/mit) [![Flarum](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FFFans%2Fcreator-declarations%2F1.x%2Fcomposer.json&query=%24.require%5B%22flarum%2Fcore%22%5D&label=Flarum)](https://docs.flarum.org/1.x/) [![Latest Version](https://img.shields.io/github/v/tag/FFans/creator-declarations?filter=v0.1.*&sort=semver&label=version)](https://github.com/FFans/creator-declarations/releases) [![Release Date](https://img.shields.io/github/release-date/ffans/creator-declarations.svg?display_date=published_at)](https://github.com/ffans/creator-declarations/releases/latest) [![Total Downloads](https://img.shields.io/packagist/dt/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations/stats) [![Monthly Downloads](https://img.shields.io/packagist/dm/ffans/creator-declarations.svg)](https://packagist.org/packages/ffans/creator-declarations/stats)
 
 A [Flarum](http://flarum.org) extension. Creator-provided content disclosures for the posts.
 
@@ -10,8 +10,8 @@ The extension helps authors describe the source, authenticity, safety context, a
 
 ## Preview
 
-![Screenshot](https://raw.githubusercontent.com/FFans/creator-declarations/main/docs/images/post.png)
-![Screenshot details](https://raw.githubusercontent.com/FFans/creator-declarations/main/docs/images/details.png)
+![Screenshot](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/docs/images/post.png)
+![Screenshot details](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/docs/images/details.png)
 
 ## Features
 
@@ -37,16 +37,14 @@ The extension helps authors describe the source, authenticity, safety context, a
 
 ## Requirements
 
-- Flarum `^2.0.0`
-
-Flarum 1.x support is planned.
+- Flarum `^1.8.0`
 
 ## Installation
 
 Install with Composer:
 
 ```sh
-composer require ffans/creator-declarations
+composer require ffans/creator-declarations:^0.1.0
 php flarum cache:clear
 ```
 
@@ -104,6 +102,7 @@ cd js
 npm install
 npm run check-typings
 npm run build
+php flarum cache:clear; & php flarum assets:publish
 ```
 
 Use `npm run dev` for a development build that watches for frontend changes.
@@ -118,7 +117,7 @@ composer test:setup
 composer test
 ```
 
-Integration tests use a MySQL or MariaDB instance. Connection details are configured with `DB_DRIVER` (default `sqlite`), `DB_HOST` (default `localhost`), `DB_PORT` (default `3306`), `DB_DATABASE` (default `flarum_test`), `DB_USERNAME` (default `root`), `DB_PASSWORD` (default `root`), and `DB_PREFIX` (default empty). The test directory can be configured with `FLARUM_TEST_TMP_DIR_LOCAL` or `FLARUM_TEST_TMP_DIR`.
+Integration tests use a MySQL or MariaDB instance. Connection details are configured with `DB_HOST` (default `localhost`), `DB_PORT` (default `3306`), `DB_DATABASE` (default `flarum_test`), `DB_USERNAME` (default `root`), `DB_PASSWORD` (default empty), and `DB_PREFIX` (default empty). The test directory can be configured with `FLARUM_TEST_TMP_DIR_LOCAL` or `FLARUM_TEST_TMP_DIR`.
 
 Create the dedicated test database before running `composer test:setup`. Setup wipes the selected database, so never point these variables at a development or production Flarum database. Subsequent integration tests run database changes inside transactions, allowing the initialized test database to be reused.
 
@@ -130,7 +129,7 @@ composer test:unit
 
 ## Translations
 
-Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https://weblate.rob006.net/projects/flarum2/ffans-creator-declarations/).
+Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https://weblate.rob006.net/projects/flarum/ffans-creator-declarations/).
 
 ## Links
 
@@ -141,4 +140,4 @@ Want to help translate this extension? Visit [Robert Korulczyk's Weblate](https:
 
 ## License
 
-Released under the [MIT License](https://raw.githubusercontent.com/FFans/creator-declarations/main/LICENSE).
+Released under the [MIT License](https://raw.githubusercontent.com/FFans/creator-declarations/1.x/LICENSE).

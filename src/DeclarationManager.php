@@ -20,7 +20,9 @@ class DeclarationManager
                 $metadata = array_filter([
                     'details' => $declaration['details'],
                     'title' => $declaration['title'],
-                ], fn (string $value) => $value !== '');
+                ], function (string $value) {
+                    return $value !== '';
+                });
                 $model->metadata = $metadata === [] ? null : $metadata;
 
                 $post->creatorDeclarations()->save($model);

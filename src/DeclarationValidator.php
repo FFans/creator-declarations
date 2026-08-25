@@ -3,7 +3,7 @@
 namespace FFans\CreatorDeclarations;
 
 use Flarum\Foundation\ValidationException;
-use Flarum\Locale\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeclarationValidator
 {
@@ -11,10 +11,16 @@ class DeclarationValidator
 
     private const URL_SOURCE_KEYS = ['repost', 'reference'];
 
-    public function __construct(
-        protected DeclarationRegistry $registry,
-        protected TranslatorInterface $translator
-    ) {
+    /** @var DeclarationRegistry */
+    protected $registry;
+
+    /** @var TranslatorInterface */
+    protected $translator;
+
+    public function __construct(DeclarationRegistry $registry, TranslatorInterface $translator)
+    {
+        $this->registry = $registry;
+        $this->translator = $translator;
     }
 
     public function validate(array $input, bool $required = false, array $preservedKeys = []): array
@@ -76,9 +82,9 @@ class DeclarationValidator
         return array_values($normalized);
     }
 
-    protected function fail(string $key): never
+    protected function fail(string $key): void
     {
-        throw new ValidationException([], [
+        throw new ValidationException([
             'creatorDeclarationData' => $this->translator->trans("ffans-creator-declarations.lib.validation.$key"),
         ]);
     }

@@ -173,10 +173,6 @@
   }
 
   &-group {
-    margin: 0;
-    padding: 0;
-    border: 0;
-
     legend {
       margin-bottom: 8px;
       color: var(--heading-color);
@@ -282,6 +278,7 @@
   }
 
   &-actions {
+    display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: nowrap;
@@ -296,13 +293,13 @@
   }
 
   &-details {
-    width: calc(100% - 28px);
+    width: ~"calc(100% - 28px)";
     margin: 0 14px 8px;
     resize: vertical;
   }
 
   &-title {
-    width: calc(100% - 28px);
+    width: ~"calc(100% - 28px)";
     margin: 0 14px 12px;
   }
 }
@@ -311,10 +308,10 @@
   .CreatorDeclarationsModal,
   .CreatorDeclarationInfoModal {
     .Modal-body {
-      height: calc(100vh - var(--header-height-phone));
-      height: calc(100dvh - var(--header-height-phone));
-      max-height: calc(100vh - var(--header-height-phone));
-      max-height: calc(100dvh - var(--header-height-phone));
+      height: ~"calc(100vh - var(--header-height-phone))";
+      height: ~"calc(100dvh - var(--header-height-phone))";
+      max-height: ~"calc(100vh - var(--header-height-phone))";
+      max-height: ~"calc(100dvh - var(--header-height-phone))";
       overflow-y: scroll;
       overscroll-behavior: contain;
       touch-action: pan-y;

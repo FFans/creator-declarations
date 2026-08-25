@@ -4,7 +4,6 @@ namespace FFans\CreatorDeclarations\Tests\integration;
 
 use Flarum\Testing\integration\TestCase;
 use FFans\CreatorDeclarations\CreatorDeclaration;
-use PHPUnit\Framework\Attributes\Test;
 
 class CreatorDeclarationsApiTest extends TestCase
 {
@@ -15,7 +14,7 @@ class CreatorDeclarationsApiTest extends TestCase
         $this->extension('ffans-creator-declarations');
     }
 
-    #[Test]
+    /** @test */
     public function creating_a_discussion_stores_and_includes_first_post_declarations(): void
     {
         $response = $this->send($this->request('POST', '/api/discussions', [
@@ -45,7 +44,46 @@ class CreatorDeclarationsApiTest extends TestCase
         );
     }
 
-    #[Test]
+    /** @test */
+    public function showing_a_discussion_includes_declarations_for_its_posts(): void
+    {
+        $createResponse = $this->send($this->request('POST', '/api/discussions', [
+            'authenticatedAs' => 1,
+            'json' => [
+                'data' => [
+                    'type' => 'discussions',
+                    'attributes' => [
+                        'title' => 'Discussion with declarations',
+                        'content' => 'Test body',
+                        'creatorDeclarationData' => [
+                            ['key' => 'original'],
+                        ],
+                    ],
+                ],
+            ],
+        ]));
+        $created = json_decode((string) $createResponse->getBody(), true);
+
+        $this->assertSame(201, $createResponse->getStatusCode(), json_encode($created));
+
+        $discussionId = $created['data']['id'];
+        $response = $this->send($this->request('GET', "/api/discussions/$discussionId"));
+        $document = json_decode((string) $response->getBody(), true);
+
+        $this->assertSame(200, $response->getStatusCode(), json_encode($document));
+
+        $post = collect($document['included'])->firstWhere('type', 'posts');
+        $declarations = collect($document['included'])->where('type', 'creator-declarations');
+
+        $this->assertNotNull($post);
+        $this->assertSame(
+            $declarations->pluck('id')->all(),
+            collect($post['relationships']['creatorDeclarations']['data'])->pluck('id')->all()
+        );
+        $this->assertSame(['original'], $declarations->pluck('attributes.key')->all());
+    }
+
+    /** @test */
     public function required_discussion_declarations_are_enforced(): void
     {
         $this->setting('ffans-creator-declarations.required_discussion', '1');
@@ -69,7 +107,7 @@ class CreatorDeclarationsApiTest extends TestCase
         $this->assertSame('/data/attributes/creatorDeclarationData', $document['errors'][0]['source']['pointer']);
     }
 
-    #[Test]
+    /** @test */
     public function invalid_source_urls_are_rejected_by_the_api(): void
     {
         $response = $this->send($this->request('POST', '/api/discussions', [
@@ -91,11 +129,37 @@ class CreatorDeclarationsApiTest extends TestCase
         $document = json_decode((string) $response->getBody(), true);
 
         $this->assertSame(422, $response->getStatusCode(), json_encode($document));
-        $this->assertSame('/data/relationships/creatorDeclarationData', $document['errors'][0]['source']['pointer']);
+        $this->assertSame('/data/attributes/creatorDeclarationData', $document['errors'][0]['source']['pointer']);
         $this->assertCount(0, CreatorDeclaration::all());
     }
 
-    #[Test]
+    /** @test */
+    public function required_reply_declarations_are_enforced_without_affecting_the_first_post(): void
+    {
+        $this->setting('ffans-creator-declarations.required_reply', '1');
+        $discussionId = $this->createDiscussion();
+
+        $response = $this->send($this->request('POST', '/api/posts', [
+            'authenticatedAs' => 1,
+            'json' => [
+                'data' => [
+                    'type' => 'posts',
+                    'attributes' => ['content' => 'A reply without declarations'],
+                    'relationships' => [
+                        'discussion' => [
+                            'data' => ['type' => 'discussions', 'id' => $discussionId],
+                        ],
+                    ],
+                ],
+            ],
+        ]));
+        $document = json_decode((string) $response->getBody(), true);
+
+        $this->assertSame(422, $response->getStatusCode(), json_encode($document));
+        $this->assertSame('/data/attributes/creatorDeclarationData', $document['errors'][0]['source']['pointer']);
+    }
+
+    /** @test */
     public function reply_declarations_can_be_created_then_replaced_through_the_api(): void
     {
         $discussionId = $this->createDiscussion();
@@ -122,7 +186,9 @@ class CreatorDeclarationsApiTest extends TestCase
         $created = json_decode((string) $createResponse->getBody(), true);
 
         $this->assertSame(201, $createResponse->getStatusCode(), json_encode($created));
-        $this->assertSame('sponsored', $created['included'][0]['attributes']['key']);
+        $this->assertTrue($created['data']['attributes']['canEditCreatorDeclarations']);
+        $includedDeclarations = collect($created['included'])->where('type', 'creator-declarations');
+        $this->assertSame('sponsored', $includedDeclarations->first()['attributes']['key']);
 
         $postId = $created['data']['id'];
         $updateResponse = $this->send($this->request('PATCH', "/api/posts/$postId", [
@@ -146,7 +212,7 @@ class CreatorDeclarationsApiTest extends TestCase
         $this->assertSame(['details' => 'Local model'], CreatorDeclaration::sole()->metadata);
     }
 
-    #[Test]
+    /** @test */
     public function forum_payload_exposes_the_effective_configuration(): void
     {
         $this->setting('ffans-creator-declarations.required_discussion', '1');

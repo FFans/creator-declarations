@@ -3,12 +3,12 @@
 namespace FFans\CreatorDeclarations\Tests\integration;
 
 use Flarum\Discussion\Discussion;
+use Flarum\Post\CommentPost;
 use Flarum\Post\Post;
 use Flarum\Testing\integration\TestCase;
 use Flarum\User\User;
 use FFans\CreatorDeclarations\CreatorDeclaration;
 use FFans\CreatorDeclarations\DeclarationManager;
-use PHPUnit\Framework\Attributes\Test;
 
 class DeclarationManagerTest extends TestCase
 {
@@ -19,7 +19,7 @@ class DeclarationManagerTest extends TestCase
         $this->extension('ffans-creator-declarations');
     }
 
-    #[Test]
+    /** @test */
     public function it_stores_creator_declarations_and_omits_empty_metadata(): void
     {
         [$creator, $post] = $this->postFixture();
@@ -39,7 +39,7 @@ class DeclarationManagerTest extends TestCase
         $this->assertSame($post->id, $stored[0]->post_id);
     }
 
-    #[Test]
+    /** @test */
     public function it_atomically_replaces_existing_declarations_and_marks_moderator_edits(): void
     {
         [, $post] = $this->postFixture();
@@ -73,21 +73,20 @@ class DeclarationManagerTest extends TestCase
     {
         $this->app();
 
-        $creator = User::factory()->create();
-        $discussion = Discussion::factory()->create([
-            'user_id' => $creator->id,
-            'last_post_number' => 1,
-        ]);
-        $post = Post::factory()->create([
-            'discussion_id' => $discussion->id,
-            'user_id' => $creator->id,
-            'number' => 1,
-        ]);
+        $creator = User::register('declaration_creator', 'creator@example.com', 'password');
+        $creator->activate();
+        $creator->save();
 
-        $discussion->forceFill([
-            'first_post_id' => $post->id,
-            'last_post_id' => $post->id,
-        ])->save();
+        $discussion = Discussion::start('Declaration fixture', $creator);
+        $discussion->save();
+
+        $post = CommentPost::reply($discussion->id, 'Fixture post', $creator->id, '127.0.0.1', $creator);
+        $post->number = 1;
+        $post->save();
+
+        $discussion->setFirstPost($post);
+        $discussion->setLastPost($post);
+        $discussion->save();
 
         return [$creator, $post];
     }

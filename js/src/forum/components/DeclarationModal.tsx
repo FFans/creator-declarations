@@ -1,8 +1,8 @@
 import app from 'flarum/forum/app';
 import Button from 'flarum/common/components/Button';
-import Form from 'flarum/common/components/Form';
-import FormModal, { IFormModalAttrs } from 'flarum/common/components/FormModal';
-import Icon from 'flarum/common/components/Icon';
+import Modal, { IInternalModalAttrs } from 'flarum/common/components/Modal';
+import icon from 'flarum/common/helpers/icon';
+import extractText from 'flarum/common/utils/extractText';
 import type Mithril from 'mithril';
 import {
   DeclarationDefinition,
@@ -12,13 +12,13 @@ import {
   labelFor,
 } from '../utils/declarations';
 
-interface DeclarationModalAttrs extends IFormModalAttrs {
+interface DeclarationModalAttrs extends IInternalModalAttrs {
   selected: DeclarationSelection[];
   showDisabled?: boolean;
   onsave: (selected: DeclarationSelection[]) => void | Promise<void>;
 }
 
-export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
+export default class DeclarationModal extends Modal<DeclarationModalAttrs> {
   selected: DeclarationSelection[] = [];
   preservedKeys: string[] = [];
 
@@ -64,7 +64,7 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
         ontouchstart={(event: TouchEvent) => event.stopPropagation()}
         ontouchmove={(event: TouchEvent) => event.stopPropagation()}
       >
-        <Form>
+        <div className="Form">
           <p className="helpText">
             {app.translator.trans(
               'ffans-creator-declarations.forum.modal.help',
@@ -77,7 +77,7 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
             if (!items.length) return null;
 
             return (
-              <fieldset className="CreatorDeclarationsModal-group">
+              <fieldset className="CreatorDeclarationsModal-group Form-group">
                 <legend>
                   {app.translator.trans(
                     `ffans-creator-declarations.lib.categories.${category}`,
@@ -105,7 +105,7 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
               )}
             </span>
           </div>
-        </Form>
+        </div>
       </div>
     );
   }
@@ -132,7 +132,7 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
           onclick={() => this.toggle(definition, !selection)}
         >
           <span className="CreatorDeclarationsModal-label">
-            <Icon name={definition.icon} style={{ color: definition.color }} />
+            {icon(definition.icon, { style: { color: definition.color } })}
             <span>
               <strong>{labelFor(definition.key)}</strong>
               <small>
@@ -143,7 +143,7 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
             </span>
           </span>
           <span className="CreatorDeclarationsModal-check" aria-hidden="true">
-            <Icon name="fas fa-check" />
+            {icon('fas fa-check')}
           </span>
         </button>
 
@@ -156,13 +156,11 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
                 value={selection.details}
                 required
                 maxlength={500}
-                placeholder={
+                placeholder={extractText(
                   app.translator.trans(
                     `ffans-creator-declarations.lib.declarations.${definition.key}.details_placeholder`,
-                    {},
-                    true,
-                  ) as string
-                }
+                  ),
+                )}
                 oninput={(event: InputEvent) => {
                   selection.details = (event.target as HTMLInputElement).value;
                 }}
@@ -173,13 +171,11 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
                 rows={1}
                 value={selection.details}
                 maxlength={500}
-                placeholder={
+                placeholder={extractText(
                   app.translator.trans(
                     `ffans-creator-declarations.lib.declarations.${definition.key}.details_placeholder`,
-                    {},
-                    true,
-                  ) as string
-                }
+                  ),
+                )}
                 oninput={(event: InputEvent) => {
                   selection.details = (
                     event.target as HTMLTextAreaElement
@@ -193,13 +189,11 @@ export default class DeclarationModal extends FormModal<DeclarationModalAttrs> {
                 type="text"
                 value={selection.title}
                 maxlength={100}
-                placeholder={
+                placeholder={extractText(
                   app.translator.trans(
                     'ffans-creator-declarations.forum.modal.link_title_placeholder',
-                    {},
-                    true,
-                  ) as string
-                }
+                  ),
+                )}
                 oninput={(event: InputEvent) => {
                   selection.title = (event.target as HTMLInputElement).value;
                 }}

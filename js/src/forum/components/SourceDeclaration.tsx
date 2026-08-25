@@ -1,6 +1,6 @@
 import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
-import Icon from 'flarum/common/components/Icon';
+import icon from 'flarum/common/helpers/icon';
 import CreatorDeclaration from '../../common/models/CreatorDeclaration';
 import { definitionFor, isSourceDeclarationKey } from '../utils/declarations';
 import type Mithril from 'mithril';
@@ -48,10 +48,9 @@ export default class SourceDeclaration extends Component<SourceDeclarationAttrs>
 
     return (
       <section className="CreatorDeclarationSource">
-        <Icon
-          name={sourceIcons[declaration.key()]}
-          className={`CreatorDeclarationSource-icon CreatorDeclarationSource-icon--${declaration.key()}`}
-        />
+        {icon(sourceIcons[declaration.key()], {
+          className: `CreatorDeclarationSource-icon CreatorDeclarationSource-icon--${declaration.key()}`,
+        })}
         <span>
           {app.translator.trans(
             `ffans-creator-declarations.forum.display.${declaration.key()}_notice`,

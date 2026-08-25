@@ -4,6 +4,7 @@ namespace FFans\CreatorDeclarations;
 
 use Flarum\Post\Post;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\User\User;
 
 class DeclarationRegistry
 {
@@ -20,15 +21,21 @@ class DeclarationRegistry
         'sponsored',
     ];
 
-    public function __construct(protected SettingsRepositoryInterface $settings)
+    /** @var SettingsRepositoryInterface */
+    protected $settings;
+
+    public function __construct(SettingsRepositoryInterface $settings)
     {
+        $this->settings = $settings;
     }
 
     public function enabledKeys(): array
     {
         return array_values(array_filter(
             $this->orderedKeys(),
-            fn (string $key) => $this->settings->get("ffans-creator-declarations.enabled.$key", '1') === '1'
+            function (string $key) {
+                return $this->settings->get("ffans-creator-declarations.enabled.$key", '1') === '1';
+            }
         ));
     }
 
@@ -41,7 +48,9 @@ class DeclarationRegistry
 
         $known = array_values(array_unique(array_filter(
             $configured,
-            fn (string $key) => in_array($key, self::KEYS, true)
+            function (string $key) {
+                return in_array($key, self::KEYS, true);
+            }
         )));
 
         return array_merge($known, array_values(array_diff(self::KEYS, $known)));
@@ -59,6 +68,22 @@ class DeclarationRegistry
         return $allowEditing === '-1'
             || ($allowEditing === 'reply' && $post->number >= $post->discussion->last_post_number)
             || (is_numeric($allowEditing) && $post->created_at->diffInMinutes(null, true) < (int) $allowEditing);
+    }
+
+    public function canEdit(Post $post, User $actor): bool
+    {
+        if (! $actor->exists) {
+            return false;
+        }
+
+        if ($actor->hasPermission('discussion.moderateCreatorDeclarations')) {
+            return true;
+        }
+
+        return $post->user_id === $actor->id
+            && (! $post->hidden_at || $post->hidden_user_id === $actor->id)
+            && $actor->can('reply', $post->discussion)
+            && $this->allowsEditingOwn($post);
     }
 
     public function isRequiredForDiscussion(): bool

@@ -3,17 +3,15 @@
 namespace FFans\CreatorDeclarations\Tests\unit;
 
 use Flarum\Foundation\ValidationException;
-use Flarum\Locale\TranslatorInterface;
 use FFans\CreatorDeclarations\DeclarationRegistry;
 use FFans\CreatorDeclarations\DeclarationValidator;
 use FFans\CreatorDeclarations\Tests\Support\ArraySettingsRepository;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DeclarationValidatorTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function it_normalizes_valid_input(): void
     {
         $result = $this->validator()->validate([
@@ -27,7 +25,7 @@ class DeclarationValidatorTest extends TestCase
         ], $result);
     }
 
-    #[Test]
+    /** @test */
     public function reposts_and_references_accept_only_http_urls(): void
     {
         foreach (['repost', 'reference'] as $key) {
@@ -39,7 +37,7 @@ class DeclarationValidatorTest extends TestCase
         }
     }
 
-    #[Test]
+    /** @test */
     public function a_disabled_existing_selection_can_be_preserved_during_editing(): void
     {
         $validator = $this->validator([
@@ -50,8 +48,10 @@ class DeclarationValidatorTest extends TestCase
         $this->assertSame('sensitive', $validator->validate([['key' => 'sensitive']], false, ['sensitive'])[0]['key']);
     }
 
-    #[Test]
-    #[DataProvider('invalidPayloads')]
+    /**
+     * @test
+     * @dataProvider invalidPayloads
+     */
     public function it_rejects_invalid_input(array $payload, string $error, bool $required = false, array $settings = []): void
     {
         $this->expectValidationFailure($this->validator($settings), $payload, $error, $required);
@@ -77,7 +77,9 @@ class DeclarationValidatorTest extends TestCase
     private function validator(array $settings = []): DeclarationValidator
     {
         $translator = $this->createStub(TranslatorInterface::class);
-        $translator->method('trans')->willReturnCallback(fn (string $key) => $key);
+        $translator->method('trans')->willReturnCallback(function (string $key) {
+            return $key;
+        });
 
         return new DeclarationValidator(
             new DeclarationRegistry(new ArraySettingsRepository($settings)),
@@ -93,7 +95,7 @@ class DeclarationValidatorTest extends TestCase
         } catch (ValidationException $exception) {
             $this->assertSame(
                 "ffans-creator-declarations.lib.validation.$error",
-                $exception->getRelationships()['creatorDeclarationData']
+                $exception->getAttributes()['creatorDeclarationData']
             );
         }
     }

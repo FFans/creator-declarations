@@ -1,7 +1,9 @@
 import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
-import Icon from 'flarum/common/components/Icon';
+import icon from 'flarum/common/helpers/icon';
+import extractText from 'flarum/common/utils/extractText';
 import CreatorDeclaration from '../../common/models/CreatorDeclaration';
+import DeclarationInfoModal from './DeclarationInfoModal';
 import {
   definitionFor,
   isSourceDeclarationKey,
@@ -30,18 +32,18 @@ export default class DeclarationList extends Component<DeclarationListAttrs> {
       const key = declaration.key();
 
       if (['original', 'reference', 'personal_opinion'].includes(key)) {
-        return app.translator.trans(
-          `ffans-creator-declarations.forum.display.${key}_summary`,
-          {},
-          true,
-        ) as unknown as string;
+        return extractText(
+          app.translator.trans(
+            `ffans-creator-declarations.forum.display.${key}_summary`,
+          ),
+        );
       }
 
-      return app.translator.trans(
-        `ffans-creator-declarations.lib.declarations.${declaration.key()}.label`,
-        {},
-        true,
-      ) as unknown as string;
+      return extractText(
+        app.translator.trans(
+          `ffans-creator-declarations.lib.declarations.${declaration.key()}.label`,
+        ),
+      );
     });
 
     return (
@@ -49,36 +51,34 @@ export default class DeclarationList extends Component<DeclarationListAttrs> {
         <button
           type="button"
           className="CreatorDeclarations-summary"
-          aria-label={
+          aria-label={extractText(
             app.translator.trans(
               'ffans-creator-declarations.forum.display.open_details',
-              {},
-              true,
-            ) as unknown as string
-          }
+            ),
+          )}
           onclick={() => {
-            app.modal.show(() => import('./DeclarationInfoModal'), {
+            app.modal.show(DeclarationInfoModal, {
               declarations: validDeclarations,
             });
           }}
         >
-          <Icon name="fas fa-bullhorn" className="CreatorDeclarations-icon" />
+          {icon('fas fa-bullhorn', { className: 'CreatorDeclarations-icon' })}
           <span className="CreatorDeclarations-format">
             {app.translator.trans(
               'ffans-creator-declarations.forum.display.declaration_format',
               {
                 declarations: labels.join(
-                  app.translator.trans(
-                    'ffans-creator-declarations.forum.display.declaration_separator',
-                    {},
-                    true,
-                  ) as unknown as string,
+                  extractText(
+                    app.translator.trans(
+                      'ffans-creator-declarations.forum.display.declaration_separator',
+                    ),
+                  ),
                 ),
               },
             )}
           </span>
           <span className="CreatorDeclarations-more" aria-hidden="true">
-            <Icon name="fas fa-chevron-right" />
+            {icon('fas fa-chevron-right')}
           </span>
         </button>
       </section>

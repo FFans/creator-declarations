@@ -52,7 +52,7 @@ export const definitions: DeclarationDefinition[] = [
   },
   {
     key: 'ai_generated',
-    icon: 'fas fa-wand-magic-sparkles',
+    icon: 'fas fa-magic',
     color: '#6557d2',
     category: 'authenticity',
     attribute: 'creatorDeclarationAiGeneratedEnabled',
@@ -60,7 +60,7 @@ export const definitions: DeclarationDefinition[] = [
   },
   {
     key: 'fictional',
-    icon: 'fas fa-masks-theater',
+    icon: 'fas fa-theater-masks',
     color: '#7c3aed',
     category: 'authenticity',
     attribute: 'creatorDeclarationFictionalEnabled',
@@ -74,7 +74,7 @@ export const definitions: DeclarationDefinition[] = [
   },
   {
     key: 'professional',
-    icon: 'fas fa-triangle-exclamation',
+    icon: 'fas fa-exclamation-triangle',
     color: '#d97706',
     category: 'safety',
     attribute: 'creatorDeclarationProfessionalEnabled',

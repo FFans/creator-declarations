@@ -7,12 +7,11 @@ use Flarum\Discussion\Discussion;
 use Flarum\Post\Post;
 use FFans\CreatorDeclarations\DeclarationRegistry;
 use FFans\CreatorDeclarations\Tests\Support\ArraySettingsRepository;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DeclarationRegistryTest extends TestCase
 {
-    #[Test]
+    /** @test */
     public function it_orders_known_keys_and_appends_omitted_keys(): void
     {
         $registry = $this->registry([
@@ -26,7 +25,7 @@ class DeclarationRegistryTest extends TestCase
         $this->assertCount(count(DeclarationRegistry::KEYS), $ordered);
     }
 
-    #[Test]
+    /** @test */
     public function it_filters_disabled_keys_without_losing_the_configured_order(): void
     {
         $registry = $this->registry([
@@ -38,7 +37,7 @@ class DeclarationRegistryTest extends TestCase
         $this->assertNotContains('sponsored', $registry->enabledKeys());
     }
 
-    #[Test]
+    /** @test */
     public function it_clamps_the_maximum_selection_count(): void
     {
         $this->assertSame(1, $this->registry(['ffans-creator-declarations.max' => '0'])->maxSelections());
@@ -46,7 +45,7 @@ class DeclarationRegistryTest extends TestCase
         $this->assertSame(9, $this->registry(['ffans-creator-declarations.max' => '99'])->maxSelections());
     }
 
-    #[Test]
+    /** @test */
     public function it_reads_required_settings_strictly(): void
     {
         $registry = $this->registry([
@@ -58,7 +57,7 @@ class DeclarationRegistryTest extends TestCase
         $this->assertFalse($registry->isRequiredForReply());
     }
 
-    #[Test]
+    /** @test */
     public function it_allows_own_edits_according_to_reply_position_or_time_limit(): void
     {
         $discussion = new Discussion();

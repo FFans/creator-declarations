@@ -13,24 +13,24 @@ use FFans\CreatorDeclarations\DeclarationValidator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 $settings = new class implements SettingsRepositoryInterface {
-    public array $values = [];
+    public $values = [];
 
     public function all(): array
     {
         return $this->values;
     }
 
-    public function get(string $key, mixed $default = null): mixed
+    public function get($key, $default = null)
     {
         return $this->values[$key] ?? $default;
     }
 
-    public function set(string $key, mixed $value): void
+    public function set($key, $value)
     {
         $this->values[$key] = $value;
     }
 
-    public function delete(string $keyLike): void
+    public function delete($keyLike)
     {
         unset($this->values[$keyLike]);
     }
