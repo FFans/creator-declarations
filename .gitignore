@@ -6,4 +6,3 @@
 /tests/.phpunit.result.cache
 .idea
 npm-debug.log*
-/locale/zh-Hans.yml
