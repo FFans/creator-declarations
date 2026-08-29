@@ -5,5 +5,4 @@
 /tests/.phpunit.cache/
 .idea
 npm-debug.log*
-/locale/zh-Hans.yml
 tests/.phpunit.result.cache
